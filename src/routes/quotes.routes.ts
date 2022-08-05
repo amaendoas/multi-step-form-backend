@@ -5,5 +5,7 @@ const quotesRoutes = Router()
 const quotesController = new QuotesController
 
 quotesRoutes.post("/", quotesController.create)
+quotesRoutes.get("/", quotesController.index)
+quotesRoutes.get("/:id", quotesController.show)
 
 export { quotesRoutes }
