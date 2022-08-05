@@ -1,4 +1,4 @@
-import { doc, addDoc, getDoc, collection, getDocs } from 'firebase/firestore'
+import { deleteDoc, updateDoc, doc, addDoc, getDoc, collection, getDocs } from 'firebase/firestore'
 import 'express-async-errors'
 import { database } from "../database"
 import AppError from "../utils/AppError"
@@ -8,7 +8,7 @@ const quoteCollection = collection(database, "quotes")
 
  export default class QuotesController {
   async create(request, response) {
-    const { name, email, phone, service, budget, project_name, project_description } = request.body
+    const { name, email, phone, service, budget, projectName, projectDescription } = request.body
     
     if(!name) {
       throw new AppError("Preencha seu nome!")
@@ -22,10 +22,10 @@ const quoteCollection = collection(database, "quotes")
     if(!service) {
       throw new AppError("Escolha uma opção de serviço!")
     }
-    if(!project_name) {
+    if(!projectName) {
       throw new AppError("Escolha um nome para seu projeto")
     }
-    if(!project_description) {
+    if(!projectDescription) {
       throw new AppError("Descreva seu projeto")
     }
     if(!budget) {
@@ -34,13 +34,13 @@ const quoteCollection = collection(database, "quotes")
 
     try{
      await addDoc(quoteCollection, {
-        name: name,
-        email: email,
-        phone: phone,
-        service: service, 
-        projectName: project_name,
-        projectDescription: project_description,
-        budget: budget
+        name,
+        email,
+        phone,
+        service, 
+        projectName,
+        projectDescription,
+        budget
         })
     
         response.status(201).json()
@@ -79,16 +79,55 @@ const quoteCollection = collection(database, "quotes")
   async show(request, response) {
     try {
       const id = request.params.id
-      const quote = doc(database, "quotes", id)
+      const quote = await doc(database, "quotes", id)
       const data = await getDoc(quote)
 
-      if(!data.exists) {
+     if(!data.exists()) {
         throw new AppError("Não encontramos esse orçamento!", 400)
       } else {
         response.json(data.data())
       }
     } catch {
-      throw new AppError("Não foi possível listar!", 400)
+      throw new AppError("Não encontramos esse orçamento!", 400)
+    }
+  }
+
+  async update(request, response) {
+    try {
+      const id = request.params.id
+      const
+        { name,
+          email,
+          phone,
+          service,
+          project_name,
+          project_description,
+          budget
+        } = request.body
+      const quoteRef = doc(database, "quotes", id)
+      await updateDoc(quoteRef, { 
+        "name": name,
+        "email": email, 
+        "phone": phone,
+        "service": service,
+        "projectName": project_name,
+        "projectDescription": project_description,
+        "budget": budget
+      })
+      response.json()
+    } catch {
+      throw new AppError("Não foi possível fazer o update!", 400)
+    }
+  }
+
+  async delete(request, response){
+    const id = request.params.id
+    const quoteRef = await doc(database, "quotes", id)
+    try {
+      await deleteDoc(quoteRef)
+      response.json()
+    } catch {
+      throw new AppError("Não foi possível deletar seu orçamento", 400)
     }
   }
 }
