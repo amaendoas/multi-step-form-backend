@@ -8,7 +8,7 @@ const quoteCollection = collection(database, "quotes")
 
  export default class QuotesController {
   async create(request, response) {
-    const { name, email, phone, service, budget, projectName, projectDescription } = request.body
+    const { name, email, phone, service, budget, projectName, projectDescription, createdAt } = request.body
     
     if(!name) {
       throw new AppError("Preencha seu nome!")
@@ -17,7 +17,7 @@ const quoteCollection = collection(database, "quotes")
       throw new AppError("Indique um email para contato")
     }
     if(!phone) {
-      throw new AppError("Indique um telefone para contato")
+      throw new AppError("Indique um telefone   para contato")
     }
     if(!service) {
       throw new AppError("Escolha uma opção de serviço!")
@@ -30,7 +30,7 @@ const quoteCollection = collection(database, "quotes")
     }
     if(!budget) {
       throw new AppError("Escolha um range de orçamento")
-    }
+    } 
 
     try{
      await addDoc(quoteCollection, {
@@ -40,7 +40,8 @@ const quoteCollection = collection(database, "quotes")
         service, 
         projectName,
         projectDescription,
-        budget
+        budget,
+        createdAt
         })
     
         response.status(201).json()
