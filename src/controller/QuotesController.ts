@@ -101,9 +101,10 @@ const quoteCollection = collection(database, "quotes")
           email,
           phone,
           service,
-          project_name,
-          project_description,
-          budget
+          projectName,
+          projectDescription,
+          budget,
+          createdAt
         } = request.body
       const quoteRef = doc(database, "quotes", id)
       await updateDoc(quoteRef, { 
@@ -111,9 +112,10 @@ const quoteCollection = collection(database, "quotes")
         "email": email, 
         "phone": phone,
         "service": service,
-        "projectName": project_name,
-        "projectDescription": project_description,
-        "budget": budget
+        "projectName": projectName,
+        "projectDescription": projectDescription,
+        "budget": budget,
+        "createdAt": createdAt
       })
       response.json()
     } catch {
