@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+      "target": "es6",
+      "outDir": "dist",
+      "noEmitOnError": true,
+      "noImplicitAny": false,
+      "allowSyntheticDefaultImports": true,
+      "moduleResolution": "node"
+  },
+  "include": [
+      "src/**/*"
+  ]
+}
