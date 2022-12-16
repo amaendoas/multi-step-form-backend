@@ -34,8 +34,9 @@ Para visualizar siga os passos abaixo:
 - Crie uma pasta em seu computador;
 - Abra o Git Bash dentro deste diretório;
 - Utilize o comando "git clone https://github.com/amaendoas/stepdev-backend.git".
-- Abra o editor de código e digite `npm install` para instalar as dependências;
-- Para iniciar digite no terminal `npm run dev`.
+- Abra o editor de código e digite `npm install` no terminal para instalar as dependências;
+- Para iniciar digite no terminal `npm run dev`;
+- Depois digite `npm run migrate` no terminal para inicializar o banco de dados.
 
 ---
 
